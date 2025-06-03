@@ -46,37 +46,37 @@
     <div class="pc-container">
         <?php
         switch ($page) {
-            case 'dashboard':
-                include('pages_owner/dashboard.php');
-                break;
-            case 'monitoring-stok':
-                include('pages_owner/monitoring-stok.php');
-                break;
-            case 'laporan':
-                include('pages_owner/laporan.php');
-                break;
-
             // case 'dashboard':
-            //     include('pages_staff/dashboard.php');
-            //     break;
-            // case 'data-barang':
-            //     include('pages_staff/data-barang.php');
-            //     break;
-            // case 'data-barang-masuk':
-            //     include('pages_staff/data-barang-masuk.php');
-            //     break;
-            // case 'data-barang-keluar':
-            //     include('pages_staff/data-barang-keluar.php');
+            //     include('pages_owner/dashboard.php');
             //     break;
             // case 'monitoring-stok':
-            //     include('pages_staff/monitoring-stok.php');
+            //     include('pages_owner/monitoring-stok.php');
             //     break;
             // case 'laporan':
-            //     include('pages_staff/laporan.php');
+            //     include('pages_owner/laporan.php');
             //     break;
-            // case 'logout':
-            //     include('logout.php');
-            //     break;
+
+            case 'dashboard':
+                include('pages_staff/dashboard.php');
+                break;
+            case 'data-barang':
+                include('pages_staff/data-barang.php');
+                break;
+            case 'data-barang-masuk':
+                include('pages_staff/data-barang-masuk.php');
+                break;
+            case 'data-barang-keluar':
+                include('pages_staff/data-barang-keluar.php');
+                break;
+            case 'monitoring-stok':
+                include('pages_staff/monitoring-stok.php');
+                break;
+            case 'laporan':
+                include('pages_staff/laporan.php');
+                break;
+            case 'logout':
+                include('logout.php');
+                break;
         }
         ?>
     </div>
