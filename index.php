@@ -47,22 +47,22 @@
         <?php
         switch ($page) {
             case 'dashboard':
-                include('pages/dashboard.php');
+                include('pages_staff/dashboard.php');
                 break;
             case 'data-barang':
-                include('pages/data-barang.php');
+                include('pages_staff/data-barang.php');
                 break;
             case 'data-barang-masuk':
-                include('pages/data-barang-masuk.php');
+                include('pages_staff/data-barang-masuk.php');
                 break;
             case 'data-barang-keluar':
-                include('pages/data-barang-keluar.php');
+                include('pages_staff/data-barang-keluar.php');
                 break;
             case 'monitoring-stok':
-                include('pages/monitoring-stok.php');
+                include('pages_staff/monitoring-stok.php');
                 break;
             case 'laporan':
-                include('pages/laporan.php');
+                include('pages_staff/laporan.php');
                 break;
             case 'logout':
                 include('logout.php');
@@ -96,6 +96,9 @@
         });
         $(document).ready(function() {
             $('#barangMasukTable').DataTable({});
+        });
+        $(document).ready(function() {
+            $('#barangKeluarTable').DataTable({});
         });
     </script>
 </body>
