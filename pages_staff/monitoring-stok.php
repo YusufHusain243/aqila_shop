@@ -1,14 +1,17 @@
 <?php
 include 'function.php';
 
-if (isset($_POST['kode_barang'])) {
-    // Ini bagian AJAX
+if (isset($_POST['cari'])) {
     $kode = $_POST['kode_barang'];
 
     $query = "
         SELECT
             barang.*,
-            (COUNT(barang_masuk.id_barang_masuk) - COUNT(barang_keluar.id_barang_keluar)) AS stok
+            COALESCE(SUM(barang_masuk.jumlah), 0) AS total_masuk,
+            COALESCE(SUM(barang_keluar.jumlah), 0) AS total_keluar,
+            (
+                COALESCE(SUM(barang_masuk.jumlah), 0) - COALESCE(SUM(barang_keluar.jumlah), 0)
+            ) AS stok
         FROM
             barang
             LEFT JOIN barang_masuk ON barang_masuk.id_barang = barang.id_barang
@@ -19,12 +22,10 @@ if (isset($_POST['kode_barang'])) {
             barang.id_barang
     ";
 
-    $data = show_data($query);
-    echo json_encode($data);
+    $data_barang = show_data($query);
 }
 ?>
 
-<!-- HTML DAN JAVASCRIPT -->
 <div class="pc-content">
     <div class="row">
         <div class="col-xl-12 col-md-12">
@@ -34,12 +35,14 @@ if (isset($_POST['kode_barang'])) {
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-md-4">
-                            <input type="text" id="kode_barang" class="form-control" placeholder="Masukkan Kode Barang">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" id="btn-cari" class="btn btn-primary w-100">Cari</button>
-                        </div>
+                        <form action="/?page=monitoring-stok" method="post" class="d-flex align-items-center gap-3">
+                            <div class="col-3 p-0">
+                                <input type="text" id="kode_barang" name="kode_barang" class="form-control" placeholder="Masukkan Kode Barang">
+                            </div>
+                            <div class="col-auto p-0">
+                                <button type="submit" name="cari" id="btn-cari" class="btn btn-primary">Cari</button>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="table-responsive">
@@ -56,7 +59,25 @@ if (isset($_POST['kode_barang'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- AJAX content loaded here -->
+                                <?php if (isset($data_barang) && count($data_barang) > 0): ?>
+                                    <?php $no = 1; foreach ($data_barang as $barang): ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= htmlspecialchars($barang['kode']); ?></td>
+                                            <td><?= htmlspecialchars($barang['nama']); ?></td>
+                                            <td><?= htmlspecialchars($barang['jenis']); ?></td>
+                                            <td><?= htmlspecialchars($barang['ukuran']); ?></td>
+                                            <td><?= htmlspecialchars($barang['stok']); ?></td>
+                                            <td>
+                                                <a href="/?page=detail-barang&id=<?= $barang['id_barang']; ?>" class="btn btn-info btn-sm">Detail</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center">Tidak ada data ditemukan.</td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -65,46 +86,3 @@ if (isset($_POST['kode_barang'])) {
         </div>
     </div>
 </div>
-
-<!-- SCRIPT -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#btn-cari').click(function() {
-            var kode = $('#kode_barang').val();
-            $.ajax({
-                url: '', // Arahkan ke file yang sama
-                method: 'POST',
-                data: {
-                    kode_barang: kode
-                },
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response);
-                    let tbody = '';
-                    if (response.length > 0) {
-                        response.forEach((item, index) => {
-                            tbody += `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${item.kode}</td>
-                                    <td>${item.nama}</td>
-                                    <td>${item.jenis}</td>
-                                    <td>${item.ukuran}</td>
-                                    <td>${item.stok}</td>
-                                    <td><button class="btn btn-sm btn-info">Detail</button></td>
-                                </tr>
-                            `;
-                        });
-                    } else {
-                        tbody = `<tr><td colspan="7" class="text-center">Data tidak ditemukan</td></tr>`;
-                    }
-                    $('table tbody').html(tbody);
-                },
-                error: function() {
-                    alert('Terjadi kesalahan saat mencari data.');
-                }
-            });
-        });
-    });
-</script>
