@@ -21,7 +21,6 @@ if (isset($_POST['kode_barang'])) {
 
     $data = show_data($query);
     echo json_encode($data);
-    // exit; // Hentikan eksekusi setelah kirim data AJAX
 }
 ?>
 

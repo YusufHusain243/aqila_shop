@@ -24,16 +24,20 @@ if (isset($_POST['tambah'])) {
     $tanggal = $_POST['tanggal'];
     $id_pengguna = $_SESSION['id_pengguna'] ?? '1';
 
-    $query = "INSERT INTO barang_keluar (id_barang, id_pengguna, total_harga, jumlah, tanggal) 
-              VALUES ('$id_barang', '$id_pengguna', '$total_harga', '$jumlah', '$tanggal')";
+    $sisa_barang = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(jumlah) AS jumlah FROM barang_masuk WHERE id_barang = '$id_barang'"))['jumlah'];
 
-    $sisa_barang = mysqli_fetch_assoc(mysqli_query($conn, "SELECT jumlah FROM barang WHERE id_barang = '$id_barang'"))['jumlah'];
-    print_r($sisa_barang);
-    die;
-    if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil ditambahkan'); window.location.href = '/?page=data-barang-keluar';</script>";
+    if ($sisa_barang >= $jumlah) {
+        $query = "INSERT INTO barang_keluar (id_barang, id_pengguna, total_harga, jumlah, tanggal) 
+              VALUES ('$id_barang', '$id_pengguna', '$total_harga', '$jumlah', '$tanggal')";
+              
+        if (mysqli_query($conn, $query)) {
+            echo "<script>alert('Data berhasil ditambahkan'); window.location.href = '/?page=data-barang-keluar';</script>";
+        } else {
+            echo "<script>alert('Error: Data gagal ditambahkan'); window.location.href = '/?page=data-barang-keluar';</script>";
+        }
     } else {
-        echo "<script>alert('Error: Data gagal ditambahkan'); window.location.href = '/?page=data-barang-keluar';</script>";
+        echo "<script>alert('Error: Stok barang tidak cukup'); window.location.href = '/?page=data-barang-keluar';</script>";
+        exit;
     }
 }
 
