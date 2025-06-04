@@ -21,4 +21,20 @@ function show_data($query)
     return $rows;
 }
 
+function login($username, $password)
+{
+    global $conn;
+    $username = mysqli_real_escape_string($conn, $username);
+    $password = mysqli_real_escape_string($conn, $password);
+
+    $query = "SELECT * FROM pengguna WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        return mysqli_fetch_assoc($result);
+    } else {
+        return false;
+    }
+}
+
 ?>

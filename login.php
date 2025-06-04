@@ -1,3 +1,30 @@
+<?php
+include 'function.php';
+session_start();
+if (isset($_SESSION['user'])) {
+    header('Location: index.php');
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    if (empty($username) || empty($password)) {
+        echo "<script>alert('Username and Password cannot be empty');</script>";
+    } else {
+        $user = login($username, $password);
+        if ($user) {
+            $_SESSION['user'] = $user;
+            header('Location: index.php');
+            exit();
+        } else {
+            echo "<script>alert('Invalid Username or Password');</script>";
+        }
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -192,7 +219,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="/login" method="post">
+                        <form action="" method="post">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name="username" id="username"
                                     placeholder="Username" />

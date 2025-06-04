@@ -43,7 +43,7 @@
                             <hr />
                             <div class="profile-notification-scroll position-relative"
                                 style="max-height: calc(100vh - 280px)">
-                                <a href="/logout" class="dropdown-item">
+                                <a href="logout.php" class="dropdown-item">
                                     <i class="ti ti-logout"></i> <span>Logout</span>
                                 </a>
                             </div>

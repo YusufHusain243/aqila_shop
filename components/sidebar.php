@@ -17,48 +17,88 @@
                     <i class="ti ti-dashboard"></i>
                 </li>
 
-                <li class="pc-item <?= $page === 'dashboard' ? 'active' : '' ?>">
-                    <a href="/?page=dashboard" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Dashboard</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'data-barang' ? 'active' : '' ?>">
-                    <a href="/?page=data-barang" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Kelola Data Barang</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'data-barang-masuk' ? 'active' : '' ?>">
-                    <a href="/?page=data-barang-masuk" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Data Barang Masuk</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'data-barang-keluar' ? 'active' : '' ?>">
-                    <a href="/?page=data-barang-keluar" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Data Barang Keluar</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'monitoring-stok' ? 'active' : '' ?>">
-                    <a href="/?page=monitoring-stok" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Monitoring Stok</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'laporan' ? 'active' : '' ?>">
-                    <a href="/?page=laporan" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Laporan</span>
-                    </a>
-                </li>
-                <li class="pc-item <?= $page === 'logout' ? 'active' : '' ?>">
-                    <a href="/?page=logout" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-layout"></i></span>
-                        <span class="pc-mtext">Logout</span>
-                    </a>
-                </li>
+                <?php
+                $role = $_SESSION['user']['role'];
+                if ($role === 'staff') {
+                ?>
+                    <li class="pc-item <?= $page === 'dashboard' ? 'active' : '' ?>">
+                        <a href="/?page=dashboard" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'data-barang' ? 'active' : '' ?>">
+                        <a href="/?page=data-barang" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Kelola Data Barang</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'data-barang-masuk' ? 'active' : '' ?>">
+                        <a href="/?page=data-barang-masuk" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Data Barang Masuk</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'data-barang-keluar' ? 'active' : '' ?>">
+                        <a href="/?page=data-barang-keluar" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Data Barang Keluar</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'monitoring-stok' ? 'active' : '' ?>">
+                        <a href="/?page=monitoring-stok" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Monitoring Stok</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'laporan' ? 'active' : '' ?>">
+                        <a href="/?page=laporan" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Laporan</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'logout' ? 'active' : '' ?>">
+                        <a href="/?page=logout" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Logout</span>
+                        </a>
+                    </li>
+                <?php
+                } else {
+                ?>
+                    <li class="pc-item <?= $page === 'dashboard' ? 'active' : '' ?>">
+                        <a href="/?page=dashboard" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'kelola-user' ? 'active' : '' ?>">
+                        <a href="/?page=kelola-user" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Kelola User</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'monitoring-stok' ? 'active' : '' ?>">
+                        <a href="/?page=monitoring-stok" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Monitoring Stok</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'laporan' ? 'active' : '' ?>">
+                        <a href="/?page=laporan" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Laporan</span>
+                        </a>
+                    </li>
+                    <li class="pc-item <?= $page === 'logout' ? 'active' : '' ?>">
+                        <a href="logout.php" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-layout"></i></span>
+                            <span class="pc-mtext">Logout</span>
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
             </ul>
 
             <div class="w-100 text-center">
