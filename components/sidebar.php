@@ -58,7 +58,7 @@
                         </a>
                     </li>
                     <li class="pc-item <?= $page === 'logout' ? 'active' : '' ?>">
-                        <a href="/?page=logout" class="pc-link">
+                        <a href="logout.php" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-layout"></i></span>
                             <span class="pc-mtext">Logout</span>
                         </a>

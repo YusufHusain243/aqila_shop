@@ -38,11 +38,11 @@ if (!isset($_SESSION['user'])) {
 
 <body>
     <!-- Loader -->
-    <!-- <div class="loader-bg">
+    <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
         </div>
-    </div> -->
+    </div>
 
     <?php
     $page = $_GET['page'] ?? 'dashboard';
@@ -67,6 +67,9 @@ if (!isset($_SESSION['user'])) {
                 case 'laporan':
                     include('pages_owner/laporan.php');
                     break;
+                default:
+                    echo "<h1 class='text-center'>Halaman tidak ditemukan</h1>";
+                    break;
             }
         } else {
             switch ($page) {
@@ -90,6 +93,9 @@ if (!isset($_SESSION['user'])) {
                     break;
                 case 'logout':
                     include('logout.php');
+                    break;
+                default:
+                    echo "<h1 class='text-center'>Halaman tidak ditemukan</h1>";
                     break;
             }
         }
@@ -124,6 +130,9 @@ if (!isset($_SESSION['user'])) {
         });
         $(document).ready(function() {
             $('#barangKeluarTable').DataTable({});
+        });
+        $(document).ready(function() {
+            $('#tableUser').DataTable({});
         });
     </script>
 </body>

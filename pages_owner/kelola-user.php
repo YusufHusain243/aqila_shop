@@ -4,45 +4,42 @@ $data_pengguna = show_data("SELECT * FROM pengguna");
 
 // Tambah data
 if (isset($_POST['tambah'])) {
-    $namaBarang = $_POST['namaBarang'];
-    $kodeBarang = $_POST['kodeBarang'];
-    $jenisBarang = $_POST['jenisBarang'];
-    $ukuran = $_POST['ukuran'];
-    $harga = $_POST['harga'];
+    $nama = $_POST['nama'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $role = 'staff'; 
 
-    $query = "INSERT INTO barang (nama, kode, jenis, ukuran, harga) VALUES ('$namaBarang', '$kodeBarang', '$jenisBarang', '$ukuran', '$harga')";
+    $query = "INSERT INTO pengguna (nama, username, password, role) VALUES ('$nama', '$username', '$password', '$role')";
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil ditambahkan'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Data berhasil ditambahkan'); window.location.href = '/?page=kelola-user';</script>";
     } else {
-        echo "<script>alert('Error: Data gagal ditambahkan'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Error: Data gagal ditambahkan'); window.location.href = '/?page=kelola-user';</script>";
     }
 }
 
 // Edit data
 if (isset($_POST['edit'])) {
     $id = $_POST['id'];
-    $namaBarang = $_POST['namaBarang'];
-    $kodeBarang = $_POST['kodeBarang'];
-    $jenisBarang = $_POST['jenisBarang'];
-    $ukuran = $_POST['ukuran'];
-    $harga = $_POST['harga'];
+    $nama = $_POST['nama'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    $query = "UPDATE barang SET nama='$namaBarang', kode='$kodeBarang', jenis='$jenisBarang', ukuran='$ukuran', harga='$harga' WHERE id_barang=$id";
+    $query = "UPDATE pengguna SET nama='$nama', username='$username', password='$password' WHERE id_pengguna=$id";
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil diubah'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Data berhasil diubah'); window.location.href = '/?page=kelola-user';</script>";
     } else {
-        echo "<script>alert('Error: Data gagal diubah'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Error: Data gagal diubah'); window.location.href = '/?page=kelola-user';</script>";
     }
 }
 
-if (isset($_POST['hapus'])) {
-    $id_barang = $_POST['id_barang'];
+if (isset($_POST['hapus'])) {      
+    $id_pengguna = $_POST['id_pengguna'];
 
-    $query = "DELETE FROM barang WHERE id_barang = $id_barang";
+    $query = "DELETE FROM pengguna WHERE id_pengguna = $id_pengguna";
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil dihapus'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Data berhasil dihapus'); window.location.href = '/?page=kelola-user';</script>";
     } else {
-        echo "<script>alert('Error: Data gagal dihapus'); window.location.href = '/?page=data-barang';</script>";
+        echo "<script>alert('Error: Data gagal dihapus'); window.location.href = '/?page=kelola-user';</script>";
     }
 }
 
@@ -53,51 +50,44 @@ if (isset($_POST['hapus'])) {
         <div class="col-xl-12 col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>KELOLA DATA BARANG</h5>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahEditBarang" onclick="resetForm()">
+                    <h5>KELOLA DATA USER</h5>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahEditUser" onclick="resetForm()">
                         Tambah Data
                     </button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tableBarang" class="table table-striped">
+                        <table id="tableUser" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Barang</th>
-                                    <th>Kode Barang</th>
-                                    <th>Jenis Barang</th>
-                                    <th>Ukuran</th>
-                                    <th>Harga</th>
+                                    <th>Nama</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Role</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($data_barang as $value): ?>
+                                foreach ($data_pengguna as $value): ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td><?= $value['nama'] ?></td>
-                                        <td><?= $value['kode'] ?></td>
-                                        <td><?= $value['jenis'] ?></td>
-                                        <td><?= $value['ukuran'] ?></td>
-                                        <td><?= $value['harga'] ?></td>
+                                        <td><?= $value['username'] ?></td>
+                                        <td><?= $value['password'] ?></td>
+                                        <td><?= $value['role'] ?></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-sm btn-info dropdown-toggle text-white" data-bs-toggle="dropdown">Aksi</button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item text-primary" href="#" data-barang-detail='<?= json_encode($value) ?>' onclick="detailBarang(this)">
-                                                            Detail
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item text-warning" href="#" data-barang-edit='<?= json_encode($value) ?>' onclick="editBarang(this)">
+                                                        <a class="dropdown-item text-warning" href="#" data-user-edit='<?= json_encode($value) ?>' onclick="editUser(this)">
                                                             Edit
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item text-danger" href="#" data-barang-hapus='<?= json_encode($value) ?>' onclick="hapusBarang(this)">Hapus</a>
+                                                        <a class="dropdown-item text-danger" href="#" data-user-hapus='<?= json_encode($value) ?>' onclick="hapusUser(this)">Hapus</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -114,35 +104,27 @@ if (isset($_POST['hapus'])) {
 </div>
 
 <!-- Modal Tambah/Edit -->
-<div class="modal fade" id="tambahEditBarang" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+<div class="modal fade" id="tambahEditUser" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/?page=data-barang" method="post">
+            <form action="/?page=kelola-user" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Tambah/Edit Barang</h5>
+                    <h5 class="modal-title" id="modalTitle">Tambah/Edit User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="barangId">
+                    <input type="hidden" name="id" id="userId">
                     <div class="mb-3">
-                        <label for="namaBarang" class="form-label">Nama Barang</label>
-                        <input type="text" class="form-control" name="namaBarang" id="namaBarang" required>
+                        <label for="nama" class="form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama" id="nama" required>
                     </div>
                     <div class="mb-3">
-                        <label for="kodeBarang" class="form-label">Kode Barang</label>
-                        <input type="text" class="form-control" name="kodeBarang" id="kodeBarang" required>
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" required>
                     </div>
                     <div class="mb-3">
-                        <label for="jenisBarang" class="form-label">Jenis Barang</label>
-                        <input type="text" class="form-control" name="jenisBarang" id="jenisBarang" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ukuran" class="form-label">Ukuran</label>
-                        <input type="text" class="form-control" name="ukuran" id="ukuran" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="harga" class="form-label">Harga</label>
-                        <input type="text" class="form-control" name="harga" id="harga" required>
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
                     </div>
                     <button type="submit" name="tambah" id="submitButton" class="btn btn-primary w-100">Simpan</button>
                 </div>
@@ -151,72 +133,34 @@ if (isset($_POST['hapus'])) {
     </div>
 </div>
 
-<!-- Modal Detail -->
-<div class="modal fade" id="detailBarangModal" tabindex="-1" aria-labelledby="detailBarangLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detail Barang</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Nama :</strong> <span id="detailNama"></span></li>
-                    <li class="list-group-item"><strong>Kode :</strong> <span id="detailKode"></span></li>
-                    <li class="list-group-item"><strong>Jenis :</strong> <span id="detailJenis"></span></li>
-                    <li class="list-group-item"><strong>Ukuran :</strong> <span id="detailUkuran"></span></li>
-                    <li class="list-group-item"><strong>Harga :</strong> <span id="detailHarga"></span></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    function detailBarang(el) {
-        const data = JSON.parse(el.getAttribute('data-barang-detail'));
+    function editUser(el) {
+        const data = JSON.parse(el.getAttribute('data-user-edit'));
 
-        document.getElementById('detailNama').textContent = data.nama;
-        document.getElementById('detailKode').textContent = data.kode;
-        document.getElementById('detailJenis').textContent = data.jenis;
-        document.getElementById('detailUkuran').textContent = data.ukuran;
-        document.getElementById('detailHarga').textContent = data.harga;
+        document.getElementById('userId').value = data.id_pengguna;
+        document.getElementById('nama').value = data.nama;
+        document.getElementById('username').value = data.username;
+        document.getElementById('password').value = data.password;
 
-        const modal = new bootstrap.Modal(document.getElementById('detailBarangModal'));
-        modal.show();
-    }
-
-    function editBarang(el) {
-        const data = JSON.parse(el.getAttribute('data-barang-edit'));
-
-        document.getElementById('barangId').value = data.id_barang;
-        document.getElementById('namaBarang').value = data.nama;
-        document.getElementById('kodeBarang').value = data.kode;
-        document.getElementById('jenisBarang').value = data.jenis;
-        document.getElementById('ukuran').value = data.ukuran;
-        document.getElementById('harga').value = data.harga;
-
-        document.getElementById('modalTitle').textContent = "Edit Barang";
+        document.getElementById('modalTitle').textContent = "Edit User";
         document.getElementById('submitButton').setAttribute('name', 'edit');
 
-        const modal = new bootstrap.Modal(document.getElementById('tambahEditBarang'));
+        const modal = new bootstrap.Modal(document.getElementById('tambahEditUser'));
         modal.show();
     }
 
     function resetForm() {
-        document.getElementById('barangId').value = '';
-        document.getElementById('namaBarang').value = '';
-        document.getElementById('kodeBarang').value = '';
-        document.getElementById('jenisBarang').value = '';
-        document.getElementById('ukuran').value = '';
-        document.getElementById('harga').value = '';
+        document.getElementById('userId').value = '';
+        document.getElementById('nama').value = '';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
 
-        document.getElementById('modalTitle').textContent = "Tambah Barang";
+        document.getElementById('modalTitle').textContent = "Tambah User";
         document.getElementById('submitButton').setAttribute('name', 'tambah');
     }
 
-    function hapusBarang(el) {
-        const data = JSON.parse(el.getAttribute('data-barang-hapus'));
+    function hapusUser(el) {
+        const data = JSON.parse(el.getAttribute('data-user-hapus'));
 
         Swal.fire({
             title: "Apakah Anda yakin?",
@@ -232,12 +176,12 @@ if (isset($_POST['hapus'])) {
                 // Buat form secara dinamis untuk submit POST hapus
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/?page=data-barang';
+                form.action = '/?page=kelola-user';
 
                 const inputId = document.createElement('input');
                 inputId.type = 'hidden';
-                inputId.name = 'id_barang';
-                inputId.value = data.id_barang;
+                inputId.name = 'id_pengguna';
+                inputId.value = data.id_pengguna;
                 form.appendChild(inputId);
 
                 const inputHapus = document.createElement('input');
