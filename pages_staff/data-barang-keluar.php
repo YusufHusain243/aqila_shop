@@ -22,7 +22,7 @@ if (isset($_POST['tambah'])) {
     $jumlah = $_POST['jumlah'];
     $total_harga = preg_replace('/[^\d]/', '', $_POST['total_harga']);
     $tanggal = $_POST['tanggal'];
-    $id_pengguna = $_SESSION['id_pengguna'] ?? '1';
+    $id_pengguna = $_SESSION['user']['id_pengguna'] ?? '1';
 
     $sisa_barang = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(jumlah) AS jumlah FROM barang_masuk WHERE id_barang = '$id_barang'"))['jumlah'];
 
@@ -262,10 +262,7 @@ if (isset($_POST['hapus']) && isset($_POST['id_barang_keluar'])) {
     function hitungTotalHarga() {
         const jumlah = parseInt(document.getElementById('jumlah').value) || 0;
         const total = hargaTerpilih * jumlah;
-        document.getElementById('totalHarga').value = total.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('totalHarga').value = total;
     }
 
     function inputJumlah() {
@@ -278,15 +275,9 @@ if (isset($_POST['hapus']) && isset($_POST['id_barang_keluar'])) {
         document.getElementById('detailKode').textContent = data.kode;
         document.getElementById('detailJenis').textContent = data.jenis;
         document.getElementById('detailUkuran').textContent = data.ukuran;
-        document.getElementById('detailHarga').textContent = Number(data.harga).toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('detailHarga').textContent = Number(data.harga);
         document.getElementById('detailJumlah').textContent = data.jumlah;
-        document.getElementById('detailTotalHarga').textContent = Number(data.total_harga).toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('detailTotalHarga').textContent = Number(data.total_harga);
         document.getElementById('detailTanggal').textContent = data.tanggal;
         document.getElementById('detailPengguna').textContent = data.nama_pengguna;
 

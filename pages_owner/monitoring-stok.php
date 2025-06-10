@@ -55,7 +55,6 @@ if (isset($_POST['cari'])) {
                                     <th>Jenis</th>
                                     <th>Ukuran</th>
                                     <th>Sisa Stok</th>
-                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,9 +67,6 @@ if (isset($_POST['cari'])) {
                                             <td><?= htmlspecialchars($barang['jenis']); ?></td>
                                             <td><?= htmlspecialchars($barang['ukuran']); ?></td>
                                             <td><?= htmlspecialchars($barang['stok']); ?></td>
-                                            <td>
-                                                <a href="/?page=detail-barang&id=<?= $barang['id_barang']; ?>" class="btn btn-info btn-sm">Detail</a>
-                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>

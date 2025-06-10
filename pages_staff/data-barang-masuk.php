@@ -1,5 +1,6 @@
 <?php
 include 'function.php';
+
 $data_barang_masuk = show_data("SELECT 
                                     barang_masuk.*, 
                                     barang.kode, 
@@ -22,7 +23,7 @@ if (isset($_POST['tambah'])) {
     $jumlah = $_POST['jumlah'];
     $total_harga = preg_replace('/[^\d]/', '', $_POST['total_harga']);
     $tanggal = $_POST['tanggal'];
-    $id_pengguna = $_SESSION['id_pengguna'] ?? '1';
+    $id_pengguna = $_SESSION['user']['id_pengguna'] ?? '1';
 
     $query = "INSERT INTO barang_masuk (id_barang, id_pengguna, total_harga, jumlah, tanggal) 
               VALUES ('$id_barang', '$id_pengguna', '$total_harga', '$jumlah', '$tanggal')";
@@ -254,10 +255,7 @@ if (isset($_POST['hapus']) && isset($_POST['id_barang_masuk'])) {
     function hitungTotalHarga() {
         const jumlah = parseInt(document.getElementById('jumlah').value) || 0;
         const total = hargaTerpilih * jumlah;
-        document.getElementById('totalHarga').value = total.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('totalHarga').value = total;
     }
 
     function inputJumlah() {
@@ -270,15 +268,9 @@ if (isset($_POST['hapus']) && isset($_POST['id_barang_masuk'])) {
         document.getElementById('detailKode').textContent = data.kode;
         document.getElementById('detailJenis').textContent = data.jenis;
         document.getElementById('detailUkuran').textContent = data.ukuran;
-        document.getElementById('detailHarga').textContent = Number(data.harga).toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('detailHarga').textContent = Number(data.harga);
         document.getElementById('detailJumlah').textContent = data.jumlah;
-        document.getElementById('detailTotalHarga').textContent = Number(data.total_harga).toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        });
+        document.getElementById('detailTotalHarga').textContent = Number(data.total_harga);
         document.getElementById('detailTanggal').textContent = data.tanggal;
         document.getElementById('detailPengguna').textContent = data.nama_pengguna;
 
